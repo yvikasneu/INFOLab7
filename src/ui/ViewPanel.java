@@ -5,6 +5,7 @@
 package ui;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.User;
 import utils.DatabaseConnector;
@@ -35,9 +36,15 @@ public class ViewPanel extends javax.swing.JPanel {
                 row[1] = u.getName();
                 row[2] = u.getAge(); 
                 model.addRow(row);
-            }            
+            } 
+            clearFields();
         }catch (Exception e){
         }
+    }
+    
+    public void clearFields() {
+        nameInput.setText("");        
+        ageInput.setText("");
     }
 
     /**
@@ -190,6 +197,16 @@ public class ViewPanel extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
+        int selectedIndex = userTable.getSelectedRow(); 
+        if(selectedIndex == -1){
+            JOptionPane.showMessageDialog(this, "Please select a user to delete", "Cannot delete user", JOptionPane.ERROR_MESSAGE);
+        }else {
+            User selectedUser = users.get(selectedIndex); 
+            DatabaseConnector.deleteUser(selectedUser);
+            JOptionPane.showMessageDialog(this, "User Deleted Successfully", "Deleted Successfully", JOptionPane.INFORMATION_MESSAGE);
+            populateTable(); 
+            clearFields();
+        }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 
