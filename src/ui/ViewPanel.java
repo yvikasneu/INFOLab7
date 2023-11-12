@@ -4,17 +4,40 @@
  */
 package ui;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.User;
+import utils.DatabaseConnector;
+
 /**
  *
  * @author vikas
  */
-public class EditPanel extends javax.swing.JPanel {
-
+public class ViewPanel extends javax.swing.JPanel {
+    
+    public ArrayList<User> users;
     /**
      * Creates new form CreatePanel
      */
-    public EditPanel() {
+    public ViewPanel() {
         initComponents();
+        populateTable();
+    }
+    
+    public void populateTable(){
+        try {
+            this.users = DatabaseConnector.getAllusers();
+            DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+            model.setRowCount(0); 
+            for (User u: users){
+                Object[] row = new Object[3]; 
+                row[0] = u;
+                row[1] = u.getName();
+                row[2] = u.getAge(); 
+                model.addRow(row);
+            }            
+        }catch (Exception e){
+        }
     }
 
     /**
@@ -27,7 +50,7 @@ public class EditPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        userTable = new javax.swing.JTable();
         ageInput = new javax.swing.JTextField();
         submitButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -39,7 +62,7 @@ public class EditPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(700, 400));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -50,15 +73,27 @@ public class EditPanel extends javax.swing.JPanel {
                 "Id", "Name", "Age"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, true
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(userTable);
+        if (userTable.getColumnModel().getColumnCount() > 0) {
+            userTable.getColumnModel().getColumn(0).setResizable(false);
+            userTable.getColumnModel().getColumn(1).setResizable(false);
+            userTable.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         ageInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,8 +201,8 @@ public class EditPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField nameInput;
     private javax.swing.JButton submitButton;
+    private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 }

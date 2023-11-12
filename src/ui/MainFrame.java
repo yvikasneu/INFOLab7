@@ -43,14 +43,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         topPanel.setPreferredSize(new java.awt.Dimension(700, 100));
 
-        createButton.setText("Create");
+        createButton.setText("CREATE");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);
             }
         });
 
-        editButton.setText("Edit");
+        editButton.setText("VIEW");
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
@@ -64,7 +64,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addGap(140, 140, 140)
                 .addComponent(createButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
                 .addComponent(editButton)
                 .addGap(169, 169, 169))
         );
@@ -113,7 +113,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        EditPanel panel = new EditPanel(); 
+        ViewPanel panel = new ViewPanel(); 
         bottomPanel.add(panel);
         CardLayout layout = (CardLayout) bottomPanel.getLayout(); 
         layout.next(bottomPanel);
