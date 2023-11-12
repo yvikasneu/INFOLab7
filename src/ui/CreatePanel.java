@@ -4,6 +4,10 @@
  */
 package ui;
 
+import javax.swing.JOptionPane;
+import model.User;
+import utils.DatabaseConnector;
+
 /**
  *
  * @author vikas
@@ -16,6 +20,12 @@ public class CreatePanel extends javax.swing.JPanel {
     public CreatePanel() {
         initComponents();
     }
+    
+    public void clearFields() {
+        nameInput.setText("");        
+        ageInput.setText("");
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,6 +65,11 @@ public class CreatePanel extends javax.swing.JPanel {
         });
 
         submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,6 +122,33 @@ public class CreatePanel extends javax.swing.JPanel {
     private void ageInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ageInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ageInputActionPerformed
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+            String name = nameInput.getText();            
+            String age = ageInput.getText();
+            int ageInt; 
+            if(name.length() == 0){
+                JOptionPane.showMessageDialog(this, "Name cannot be empty", "Cannot create user", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(age.length() == 0){
+                JOptionPane.showMessageDialog(this, "Age cannot be empty", "Cannot create user", JOptionPane.ERROR_MESSAGE);
+                return;
+
+            }
+            try {
+               ageInt = Integer.parseInt(age);
+               User newUser = new User(); 
+               newUser.setAge(ageInt);
+               newUser.setName(name);
+               DatabaseConnector.addUser(newUser);
+               clearFields();
+               JOptionPane.showMessageDialog(this, "User created successfully", "Created Successfully", JOptionPane.INFORMATION_MESSAGE);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Age must be a number", "Cannot create user", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_submitButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

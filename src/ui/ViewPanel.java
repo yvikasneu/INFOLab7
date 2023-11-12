@@ -32,7 +32,7 @@ public class ViewPanel extends javax.swing.JPanel {
             model.setRowCount(0); 
             for (User u: users){
                 Object[] row = new Object[3]; 
-                row[0] = u;
+                row[0] = u.getId();
                 row[1] = u.getName();
                 row[2] = u.getAge(); 
                 model.addRow(row);
